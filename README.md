@@ -10,7 +10,7 @@ Hero Social Feed: View other heroes and their active quests.
 - Backend: Express.js
 - Database: MongoDB
 - Frontend: EJS with Express EJS Layouts
-- Middleware:
+## Middleware:
 - method-override for overriding HTTP verbs
 - bcrypt for password hashing and verification
 - morgan for logging HTTP requests
