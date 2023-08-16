@@ -1,0 +1,8 @@
+h1 {
+    color: red;
+}
+
+.landing-hero {
+    display: flex;
+    padding: 5%;
+} 

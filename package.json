@@ -1,0 +1,21 @@
+{
+  "name": "heroquest",
+  "version": "1.0.0",
+  "description": "welcome to Hero Quest, the social quest app for adventurers and heroes alike! create a profile and set out on a new adventure with fellow heroes.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^7.4.3",
+    "morgan": "^1.10.0"
+  }
+}
