@@ -8,35 +8,33 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
-
     let userToLogin = await User.findOne({ username: req.body.username });
-    
+
     if(userToLogin){
-        
         bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
-        if (result) {
-            req.session.userId = userToLogin._id;
-            req.session.name = userToLogin.name;
-            res.send('logged in')
-        } else {
-            res.send('wrong password')
-        }
-    })
+            if (result) {
+                req.session.user = userToLogin; // Set user object in session
+                res.redirect('/index')
+            } else {
+                res.render('auth/login.ejs', { errorMessage: 'Incorrect password.' })
+            }
+        })
+    } else {
+        res.render('auth/login.ejs', { errorMessage: 'User not found.' })
     }
 });
 
 router.post('/register', async (req, res) => {
-
     if (req.body.username && req.body.password) {
         let plainTextPassword = req.body.password;
-        bcrypt. hash(plainTextPassword, 10, async (err, hashedPassword) => {
+        bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
             req.body.password = hashedPassword;
             let newUser = await User.create(req.body);
-
-            res.send(newUser);
-    });
-    
+            req.session.user = newUser; // Automatically log in new user
+            res.redirect('/index'); // Redirect to index instead of login
+        });
+    } else {
+        res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
     }
 });
 
@@ -44,5 +42,4 @@ router.get('/register', (req, res) => {
     res.render('auth/register')
 });
 
-
-module.exports = router
+module.exports = router;

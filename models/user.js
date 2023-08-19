@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     username: String,  
     password: String,
     location: String,
-    weapon: String,
+    weapon_of_choice: String,
     active: Boolean
 });
 
