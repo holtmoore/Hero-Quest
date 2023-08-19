@@ -4,26 +4,15 @@
 <div class="profile">
   <h2>Your Profile</h2>
   <p><strong>Username:</strong> <%= user.username %></p>
-  <p><strong>Weapon of Choice:</strong> <%= user.weapon_of_choice %></p>
+  <p><strong>Weapon of Choice:</strong> <%= user.weapon %></p>
   <p><strong>Location:</strong> <%= user.location %></p>
-  <p><strong>Current Quest:</strong> <%= user.active_quest ? user.active_quest.location : "No active quest" %></p>
+  <p><strong>Current Quest:</strong> <%= user.active_quest ? quest.location : "No active quest" %></p>
 </div>
 
 <% if (!user.active_quest) { %>
   <button id="accept-quest">Accept Quest</button>
 <% } %>
 
-<div class="timeline">
-  <h2>Active Quests</h2>
-  <% for (let activeHero of activeHeroes) { %>
-    <div class="quest">
-      <p><strong>Hero:</strong> <%= activeHero.username %></p>
-      <p><strong>Quest:</strong> <%= activeHero.active_quest.location %></p>
-      <p><strong>Location:</strong> <%= activeHero.active_quest.location %></p>
-      <p><strong>Possible Enemies:</strong> <%= activeHero.active_quest.possible_enemies.join(', ') %></p>
-      <p><strong>Reward:</strong> <%= activeHero.active_quest.reward %></p>
-    </div>
-  <% } %>
-</div>
+<!-- This is where the timeline will be added later -->
 
 <button id="logout">Log Out</button>

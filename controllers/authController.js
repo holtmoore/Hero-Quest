@@ -9,11 +9,10 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
     let userToLogin = await User.findOne({ username: req.body.username });
-
-    if(userToLogin){
+    if (userToLogin) {
         bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
             if (result) {
-                req.session.user = userToLogin; // Set user object in session
+                req.session.user = userToLogin;
                 res.redirect('/index')
             } else {
                 res.render('auth/login.ejs', { errorMessage: 'Incorrect password.' })
@@ -30,8 +29,8 @@ router.post('/register', async (req, res) => {
         bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
             req.body.password = hashedPassword;
             let newUser = await User.create(req.body);
-            req.session.user = newUser; // Automatically log in new user
-            res.redirect('/index'); // Redirect to index instead of login
+            req.session.user = newUser;
+            res.redirect('/index');
         });
     } else {
         res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
