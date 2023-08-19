@@ -6,12 +6,14 @@
   <p><strong>Username:</strong> <%= user.username %></p>
   <p><strong>Weapon of Choice:</strong> <%= user.weapon %></p>
   <p><strong>Location:</strong> <%= user.location %></p>
-  <p><strong>Current Quest:</strong> <%= user.active_quest ? quest.location : "No active quest" %></p>
+  <p><strong>Current Quest:</strong> <%= quest ? quest.description : "No active quest" %></p>
 </div>
 
 <% if (!user.active_quest) { %>
-  <button id="accept-quest">Accept Quest</button>
+  <a href="/quests/accept" class="btn">Accept Quest</a>
 <% } %>
+
+
 
 <!-- This is where the timeline will be added later -->
 

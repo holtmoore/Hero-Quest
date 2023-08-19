@@ -1,3 +1,4 @@
+//models/user.js
 const mongoose = require('../db/connection');
 
 const UserSchema = new mongoose.Schema({
@@ -6,8 +7,10 @@ const UserSchema = new mongoose.Schema({
     password: String,
     location: String,
     weapon: String,
-    active: Boolean
+    active: Boolean,
+    active_quest: { type: mongoose.Schema.Types.ObjectId, ref: 'Quest' } // Add this line
 });
+
 
 const User = mongoose.model('User', UserSchema);
 

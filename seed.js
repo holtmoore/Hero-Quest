@@ -1,29 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require('./db/connection');
 const Quest = require('./models/quest');
 
-const sampleQuests = [
-  {
-    id: 1,
-    location: "Dungeon of Doom",
-    possible_enemies: ["Skeletons", "Zombies", "Orcs"],
-    reward: "Golden Sword",
-    difficulty_level: "Hard"
-  },
-  // Add more sample quests here
+mongoose.connect('mongodb+srv://doueven1996:KfcqJfHC0uVIG9bZ@herocluster.ivt3edt.mongodb.net/', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const quests = [
+  { description: 'Go outside and capture 3 squirrels.', difficulty: 'easy' },
+  { description: 'Find a hidden treasure in your backyard.', difficulty: 'medium' },
+  { description: 'Defeat the dragon that lives in the park.', difficulty: 'hard' },
+  // Add more quest objects here
 ];
 
-// Connect to the MongoDB server
-mongoose.connect('mongodb://localhost/heroquest', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-// Seed the sample quests into the database
-Quest.insertMany(sampleQuests, (err, docs) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log('Sample quests seeded successfully:', docs);
-  }
-  mongoose.connection.close();
-});
+Quest.insertMany(quests)
+  .then(() => {
+    console.log('Quests inserted');
+    mongoose.connection.close();
+  })
+  .catch((err) => {
+    console.error('Error inserting quests:', err);
+  });

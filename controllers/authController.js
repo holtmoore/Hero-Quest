@@ -1,3 +1,4 @@
+//contrllers/authController.js
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
@@ -12,16 +13,21 @@ router.post('/login', async (req, res) => {
     if (userToLogin) {
         bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
             if (result) {
-                req.session.user = userToLogin;
-                res.redirect('/index')
+                req.session.userId = userToLogin._id; // Store user's ID in the session
+                res.redirect('/index');
             } else {
-                res.render('auth/login.ejs', { errorMessage: 'Incorrect password.' })
+                res.render('auth/login.ejs', { errorMessage: 'Incorrect password.' });
             }
-        })
+        });
     } else {
-        res.render('auth/login.ejs', { errorMessage: 'User not found.' })
+        res.render('auth/login.ejs', { errorMessage: 'User not found.' });
     }
 });
+
+router.get('/register', (req, res) => {
+    res.render('auth/register')
+});
+
 
 router.post('/register', async (req, res) => {
     if (req.body.username && req.body.password) {
@@ -29,7 +35,7 @@ router.post('/register', async (req, res) => {
         bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
             req.body.password = hashedPassword;
             let newUser = await User.create(req.body);
-            req.session.user = newUser;
+            req.session.userId = newUser._id; // Change this line
             res.redirect('/index');
         });
     } else {
@@ -37,8 +43,5 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/register', (req, res) => {
-    res.render('auth/register')
-});
 
 module.exports = router;

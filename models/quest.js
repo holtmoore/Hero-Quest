@@ -1,13 +1,16 @@
-const mongoose = require('mongoose');
+//models/quest.js
+const mongoose = require('../db/connection');
+const QuestSchema = new mongoose.Schema({
 
-const questSchema = new mongoose.Schema({
-  id: Number,
-  location: String,
-  possible_enemies: [String],
-  reward: String,
-  difficulty_level: String
-});
+    description: {
+        type: String,
+        required: true,
+      },
+      difficulty: {
+        type: String,
+        required: true,
+      }
+    });
 
-const Quest = mongoose.model('Quest', questSchema);
-
+const Quest = mongoose.model('Quest', QuestSchema);
 module.exports = Quest;
