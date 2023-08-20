@@ -1,8 +1,23 @@
-h1 {
-    color: red;
+/* Image styling */
+.profile-image {
+    width: 150px; /* Set width */
+    height: 150px; /* Set height */
+    border-radius: 50%; /* Make it round */
+    border: 3px solid #f1f1f1; /* Add border */
+    object-fit: cover; /* Cover the entire container without stretching the image */
 }
 
-.landing-hero {
-    display: flex;
-    padding: 5%;
-} 
+/* Simple Hero styling */
+.hero {
+    background-color: #282c34; /* Background color */
+    color: #61dafb; /* Text color */
+    padding: 20px; /* Padding */
+    text-align: center; /* Center text */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Add some spacing between elements */
+.hero h1,
+.hero p {
+    margin-bottom: 15px;
+}

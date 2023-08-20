@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
     weapon: String,
     active: Boolean,
     active_quest: { type: mongoose.Schema.Types.ObjectId, ref: 'Quest' },
-    questCompleted: { type: Boolean, default: false }
+    questCompleted: { type: Boolean, default: false },
+    image: String
 
 });
 

@@ -3,6 +3,30 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const { check, validationResult } = require('express-validator');
+
+const registerValidation = [
+    check('username')
+      .notEmpty().withMessage('Username is required')
+      .isLength({ min: 3 }).withMessage('Username must be at least 3 characters long'),
+    check('password')
+      .notEmpty().withMessage('Password is required')
+      .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+  ];
+  
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/uploads/')
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname)
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+  
 
 router.get('/login', (req, res) => {
     res.render('auth/login.ejs')
@@ -27,6 +51,7 @@ router.post('/login', async (req, res) => {
 router.get('/register', (req, res) => {
     res.render('auth/register')
 });
+
 
 
 router.post('/register', async (req, res) => {

@@ -46,5 +46,34 @@ router.get('/complete', async (req, res) => {
   }
 });
 
+router.post('/acceptQuest', async (req, res) => {
+  const userId = req.session.userId;
+  const questId = req.params.questId;
+
+  try {
+      await User.findByIdAndUpdate(userId, {
+          activeQuest: questId,
+          questCompleted: false,
+      });
+      res.redirect('/index');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+router.post('/completeQuest', async (req, res) => {
+  const userId = req.session.userId;
+
+  try {
+      await User.findByIdAndUpdate(userId, {
+          questCompleted: true,
+      });
+      res.redirect('/index');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;

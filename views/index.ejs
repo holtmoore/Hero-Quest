@@ -1,8 +1,12 @@
-<h1>Welcome, <%= user.username %>!</h1>
-<p>Here you can create a profile, accept quests, and see other heroes' active quests.</p>
+<div class="hero">
+  <h1>Welcome, <%= user.username %>!</h1>
+  <p>Here you can create a profile, accept quests, and see other heroes' active quests.</p>
+</div>
 
 <div class="profile">
   <h2>Your Profile</h2>
+  <!-- <img src="/uploads/<%= user.image %>" alt="User's profile image"> -->
+  <img class="profile-image" src="/uploads/<%= user.image %>" alt="Profile Image">
   <p><strong>Username:</strong> <%= user.username %></p>
   <p><strong>Weapon of Choice:</strong> <%= user.weapon %></p>
   <p><strong>Location:</strong> <%= user.location %></p>
@@ -18,3 +22,5 @@
 <!-- This is where the timeline will be added later -->
 
 <button id="logout">Log Out</button>
+
+<!-- <link rel="stylesheet" href="/public/style.css"> -->
