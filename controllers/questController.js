@@ -26,23 +26,25 @@ router.get('/accept', async (req, res) => {
     }
 });
 
-// router.get('/start', async (req, res) => {
-//   try {
-//       const user = await User.findById(req.session.userId);
+router.get('/complete', async (req, res) => {
+  try {
+      const user = await User.findById(req.session.userId);
 
-//       if (!user) {
-//           throw new Error('User not found');
-//       }
+      if (!user) {
+          throw new Error('User not found');
+      }
 
-//       user.active = true;
-//       await user.save();
+      // Reset the user's active quest status
+      user.active_quest = null;
+      await user.save();
 
-//       res.redirect('/index');
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// });
+      // Render the 'quest-completed' view and pass the user's data
+      res.render('quest-completed', { user: user });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 
 module.exports = router;
