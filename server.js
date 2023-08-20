@@ -41,6 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/quests', questController);
 app.use(authRoutes);
 app.use('/quests', questController);
+app.use('/users', authRoutes);
 
 
 //routes
@@ -54,37 +55,6 @@ app.get('/index', async (req, res) => {
   const quest = await Quest.findById(user.activeQuest);
   res.render('index', { user: user, quest: quest });
 });
-
-// app.post('/acceptQuest/:questId', async (req, res) => {
-//   const userId = req.session.userId;
-//   const questId = req.params.questId;
-
-//   try {
-//       await User.findByIdAndUpdate(userId, {
-//           activeQuest: questId,
-//           questCompleted: false,
-//       });
-//       res.redirect('/index');
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// });
-
-// app.post('/completeQuest', async (req, res) => {
-//   const userId = req.session.userId;
-
-//   try {
-//       await User.findByIdAndUpdate(userId, {
-//           questCompleted: true,
-//       });
-//       res.redirect('/index');
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// });
-
 
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`));

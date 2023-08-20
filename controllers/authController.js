@@ -68,5 +68,52 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.get('/update', async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+        res.render('update-profile', { user: user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+  
+router.post('/update', async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+        user.username = req.body.username;
+        user.email = req.body.email;
+
+        await user.save();
+        res.redirect('/index'); // Redirect to the page where you want to show the updated profile
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+  
+router.post('/delete', async (req, res) => {
+    const userId = req.session.userId;
+  
+    try {
+      await User.findByIdAndDelete(userId);
+      req.session.destroy(); // Destroy the session after deleting the user
+      res.redirect('/');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+
+
 
 module.exports = router;

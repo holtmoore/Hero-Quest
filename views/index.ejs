@@ -18,6 +18,11 @@
 <% } else { %>
   <a href="/quests/complete" class="btn">Quest Completed</a>
 <% } %>
+<a href="/users/update" class="btn btn-primary">Update Profile</a>
+
+<form action="/users/delete" method="post">
+  <input type="submit" value="Delete Account">
+</form>
 
 <!-- This is where the timeline will be added later -->
 
