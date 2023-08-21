@@ -8,27 +8,20 @@ const questRoutes = require('./controllers/questController');
 const session = require('express-session');
 const User = require('./models/user');
 // const Quest = require('./models/quest');
-// const multer = require('multer');
+const multer = require('multer');
 // const fs = require('fs');
 // const path = require('path');
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
-// const uploadDir = path.join(__dirname, 'public', 'uploads');
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, uploadDir)
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + '-' + file.originalname)
-//   }
-// });
-
-// const upload = multer({ storage: storage });
-
-// if (!fs.existsSync(uploadDir)) {
-//   // If not, create it
-//   fs.mkdirSync(uploadDir, { recursive: true });
-// }
 
 
 // middleware

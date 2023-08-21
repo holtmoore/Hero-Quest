@@ -54,19 +54,37 @@ router.get('/register', (req, res) => {
 
 
 
-router.post('/register', async (req, res) => {
+// router.post('/register', async (req, res) => {
+//     if (req.body.username && req.body.password) {
+//         let plainTextPassword = req.body.password;
+//         bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
+//             req.body.password = hashedPassword;
+//             let newUser = await User.create(req.body);
+//             req.session.userId = newUser._id; // Change this line
+//             res.redirect('/index');
+//         });
+//     } else {
+//         res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
+//     }
+// });
+
+router.post('/register', upload.single('profileImage'), async (req, res) => {
     if (req.body.username && req.body.password) {
-        let plainTextPassword = req.body.password;
-        bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
-            req.body.password = hashedPassword;
-            let newUser = await User.create(req.body);
-            req.session.userId = newUser._id; // Change this line
-            res.redirect('/index');
-        });
+      let plainTextPassword = req.body.password;
+      bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
+        req.body.password = hashedPassword;
+        if (req.file) {
+          req.body.image = req.file.filename;
+        }
+        let newUser = await User.create(req.body);
+        req.session.userId = newUser._id; // Change this line
+        res.redirect('/index');
+      });
     } else {
-        res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
+      res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
     }
-});
+  });
+  
 
 router.get('/update', async (req, res) => {
     try {
