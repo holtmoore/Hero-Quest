@@ -1,3 +1,4 @@
+<!-- index.ejs -->
 <div class="hero">
   <h1>Welcome, <%= user.username %>!</h1>
   <p>Here you can create a profile, accept quests, and see other heroes' active quests.</p>
@@ -13,12 +14,24 @@
   <p><strong>Current Quest:</strong> <%= quest ? quest.description : "No active quest" %></p>
 </div>
 
-<% if (!user.active_quest) { %>
+<!-- <% if (!user.active_quest) { %>
   <a href="/quests/accept" class="btn">Accept Quest</a>
 <% } else { %>
   <a href="/quests/complete" class="btn">Quest Completed</a>
+<% } %> -->
+<% if (!user.active_quest) { %>
+  <form action="/accept" method="get">
+    <input type="submit" value="Accept Quest" class="btn">
+  </form>
+<% } else { %>
+  <form action="/complete" method="get">
+    <input type="submit" value="Quest Completed" class="btn">
+  </form>
 <% } %>
-<a href="/users/update" class="btn btn-primary">Update Profile</a>
+
+<form action="/users/update" method="get">
+  <input type="submit" value="Update Profile" class="btn btn-primary">
+</form>
 
 <form action="/users/delete" method="post">
   <input type="submit" value="Delete Account">
@@ -26,6 +39,9 @@
 
 <!-- This is where the timeline will be added later -->
 
-<button id="logout">Log Out</button>
+<form action="/logout" method="get">
+  <input type="submit" value="Log Out">
+</form>
+
 
 <!-- <link rel="stylesheet" href="/public/style.css"> -->

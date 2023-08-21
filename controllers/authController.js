@@ -113,7 +113,36 @@ router.post('/delete', async (req, res) => {
     }
   });
   
+//   router.get('/timeline', async (req, res) => {
+//     try {
+//       const activeUsers = await User.find({ active: true, active_quest: { $ne: null } });
+//       res.render('timeline', { activeUsers });
+//     } catch (error) {
+//       console.error('Error fetching active users:', error);
+//       res.status(500).send('Server error');
+//     }
+//   });
 
-
+router.get('/timeline', async (req, res) => {
+    try {
+      const users = await User.find({ active: true }).populate('active_quest');
+      res.render('timeline', { users });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server Error');
+    }
+  });
+  
+  router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      res.redirect('/'); // Redirect to the home page
+    });
+  });
+  
 
 module.exports = router;
