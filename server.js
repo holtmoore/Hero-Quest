@@ -7,10 +7,8 @@ const authRoutes = require('./controllers/authController');
 const questRoutes = require('./controllers/questController');
 const session = require('express-session');
 const User = require('./models/user');
-// const Quest = require('./models/quest');
 const multer = require('multer');
-// const fs = require('fs');
-// const path = require('path');
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -32,9 +30,8 @@ app.set('layout', 'layout');
 app.use(session({ secret: 'somethingrandom', cookie: { maxAge: 3600000 }}));
 app.use(express.urlencoded({ extended: true }));
 app.use(questRoutes)
-// app.use(authRoutes);
+
 app.use('/', authRoutes);
-// app.use('/quests', questController);
 app.use('/users', authRoutes);
 
 

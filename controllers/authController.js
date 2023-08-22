@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
     if (userToLogin) {
         bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
             if (result) {
-                req.session.userId = userToLogin._id; // Store user's ID in the session
+                req.session.userId = userToLogin._id;
                 res.redirect('/index');
             } else {
                 res.render('auth/login.ejs', { errorMessage: 'Incorrect password.' });
@@ -52,21 +52,26 @@ router.get('/register', (req, res) => {
     res.render('auth/register')
 });
 
-
-
 // router.post('/register', async (req, res) => {
 //     if (req.body.username && req.body.password) {
 //         let plainTextPassword = req.body.password;
 //         bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
 //             req.body.password = hashedPassword;
 //             let newUser = await User.create(req.body);
-//             req.session.userId = newUser._id; // Change this line
-//             res.redirect('/index');
+//             req.session.userId = newUser._id;
+
+//             // Check if the name entered matches your mom's name
+//             if (req.body.name === "Christine Moore") {
+//                 res.render('specialMessage', { user: newUser });
+//             } else {
+//                 res.redirect('/index');
+//             }
 //         });
 //     } else {
 //         res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
 //     }
 // });
+
 
 router.post('/register', upload.single('profileImage'), async (req, res) => {
     if (req.body.username && req.body.password) {
@@ -77,7 +82,7 @@ router.post('/register', upload.single('profileImage'), async (req, res) => {
           req.body.image = req.file.filename;
         }
         let newUser = await User.create(req.body);
-        req.session.userId = newUser._id; // Change this line
+        req.session.userId = newUser._id;
         res.redirect('/index');
       });
     } else {
@@ -111,7 +116,7 @@ router.post('/update', async (req, res) => {
         user.email = req.body.email;
 
         await user.save();
-        res.redirect('/index'); // Redirect to the page where you want to show the updated profile
+        res.redirect('/index');
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -123,23 +128,13 @@ router.post('/delete', async (req, res) => {
   
     try {
       await User.findByIdAndDelete(userId);
-      req.session.destroy(); // Destroy the session after deleting the user
+      req.session.destroy(); 
       res.redirect('/');
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
   });
-  
-//   router.get('/timeline', async (req, res) => {
-//     try {
-//       const activeUsers = await User.find({ active: true, active_quest: { $ne: null } });
-//       res.render('timeline', { activeUsers });
-//     } catch (error) {
-//       console.error('Error fetching active users:', error);
-//       res.status(500).send('Server error');
-//     }
-//   });
 
 router.get('/timeline', async (req, res) => {
     try {
@@ -158,7 +153,7 @@ router.get('/timeline', async (req, res) => {
         return res.status(500).send('Internal Server Error');
       }
   
-      res.redirect('/'); // Redirect to the home page
+      res.redirect('/'); 
     });
   });
   
