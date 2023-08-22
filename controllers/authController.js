@@ -5,6 +5,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const { check, validationResult } = require('express-validator');
+const path = require('path');
 
 const registerValidation = [
     check('username')
@@ -52,43 +53,47 @@ router.get('/register', (req, res) => {
     res.render('auth/register')
 });
 
-// router.post('/register', async (req, res) => {
-//     if (req.body.username && req.body.password) {
-//         let plainTextPassword = req.body.password;
-//         bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
-//             req.body.password = hashedPassword;
-//             let newUser = await User.create(req.body);
-//             req.session.userId = newUser._id;
-
-//             // Check if the name entered matches your mom's name
-//             if (req.body.name === "Christine Moore") {
-//                 res.render('specialMessage', { user: newUser });
-//             } else {
-//                 res.redirect('/index');
-//             }
-//         });
-//     } else {
-//         res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
-//     }
-// });
-
-
 router.post('/register', upload.single('profileImage'), async (req, res) => {
     if (req.body.username && req.body.password) {
-      let plainTextPassword = req.body.password;
-      bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
-        req.body.password = hashedPassword;
-        if (req.file) {
-          req.body.image = req.file.filename;
-        }
-        let newUser = await User.create(req.body);
-        req.session.userId = newUser._id;
-        res.redirect('/index');
-      });
+        let plainTextPassword = req.body.password;
+        bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
+            req.body.password = hashedPassword;
+
+            if (req.file) {
+                req.body.image = req.file.filename;
+            }
+
+            let newUser = await User.create(req.body);
+            req.session.userId = newUser._id;
+
+            // Check if the name entered matches your mom's name
+            if (req.body.name === "Christine Moore") {
+                res.render('specialMessage', { user: newUser });
+            } else {
+                res.redirect('/index');
+            }
+        });
     } else {
-      res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
+        res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
     }
-  });
+});
+
+// router.post('/register', upload.single('profileImage'), async (req, res) => {
+//     if (req.body.username && req.body.password) {
+//       let plainTextPassword = req.body.password;
+//       bcrypt.hash(plainTextPassword, 10, async (err, hashedPassword) => {
+//         req.body.password = hashedPassword;
+//         if (req.file) {
+//           req.body.image = req.file.filename;
+//         }
+//         let newUser = await User.create(req.body);
+//         req.session.userId = newUser._id;
+//         res.redirect('/index');
+//       });
+//     } else {
+//       res.render('auth/register.ejs', { errorMessage: 'All fields are required.' })
+//     }
+//   });
   
 
 router.get('/update', async (req, res) => {

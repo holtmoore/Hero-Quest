@@ -8,21 +8,22 @@ const questRoutes = require('./controllers/questController');
 const session = require('express-session');
 const User = require('./models/user');
 const multer = require('multer');
+const path = require('path');
 
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './public/uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './public/uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + '-' + file.originalname);
+//   }
+// });
+// const upload = multer({ storage: storage });
 
 
 
 // middleware
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(expressLayouts);
@@ -30,6 +31,8 @@ app.set('layout', 'layout');
 app.use(session({ secret: 'somethingrandom', cookie: { maxAge: 3600000 }}));
 app.use(express.urlencoded({ extended: true }));
 app.use(questRoutes)
+
+
 
 app.use('/', authRoutes);
 app.use('/users', authRoutes);
